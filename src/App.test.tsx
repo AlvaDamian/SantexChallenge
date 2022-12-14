@@ -1,6 +1,6 @@
 import { MockedProvider } from '@apollo/client/testing';
 import { render } from '@testing-library/react';
-import { ProductList } from './components/ProductList';
+import { ProductList } from './components/ProductList/ProductList';
 
 describe('ProductList', () => {
   it('renders text and button', async () => {
