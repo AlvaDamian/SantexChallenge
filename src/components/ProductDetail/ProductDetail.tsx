@@ -107,7 +107,15 @@ const ActiveOptionItem = styled(OptionItem)`
   background-color: #ffa500;
   color: white;
 `;
+
+const ErrorMessageContainer = styled.div`
+  background-color: red;
+  color: white;
+  padding: 8px;
+`;
 // #endregion
+
+
 
 interface ProductDetailProps {
   product: Product
@@ -168,6 +176,11 @@ export const ProductDetail:FC<ProductDetailProps> = (props) => {
         <QuantityInput type='number' min={1} max={99} step={1} value={quantity} onChange={(event) => setQuantity(+event.target.value)} />
         <AddToCartButton onClick={() => addProduct(activeVariant.id, quantity)} disabled={!activeVariant || loading}>{loading ? "Adding..." : "Add to cart"}</AddToCartButton>
       </FooterFormContainer>
+
+      {
+        error &&
+        <ErrorMessageContainer>{error}</ErrorMessageContainer>
+      }
     </ProductDetailFooter>
   </ProductDetailCard>;
 };
