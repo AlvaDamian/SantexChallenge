@@ -2,12 +2,12 @@ import useGetAllProducts from "../../hooks/useGetAllProducts";
 import { ProductDetail } from "../ProductDetail/ProductDetail";
 import styled from 'styled-components';
 import { Spinner } from "../Spinner";
-import useAddProduct from "../../hooks/useAddProduct";
 
 const Container = styled.div`
   display: flex;
   padding: 1rem;
   justify-content: space-evenly;
+  align-items: baseline;
   flex-wrap: wrap
 `;
 
