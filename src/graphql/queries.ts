@@ -3,12 +3,31 @@ import { gql } from "@apollo/client"
 export const getAllProductsQuery = gql`
   query getAllProducts {
     products {
-      picture,
-      description,
-      variants {
-        id,
+      totalItems,
+      items {
         name,
-        price
+        id,
+        description,
+        assets {
+          name,
+          source,
+          preview,
+          width,
+          height
+        },
+        featuredAsset {
+          name,
+          source,
+          preview,
+          width,
+          height
+        },
+        variants {
+          id,
+          name,
+          price,
+          stockLevel
+        }
       }
     }
   }

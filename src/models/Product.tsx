@@ -12,23 +12,25 @@ export default class Product {
   
   constructor(
     private _id:string,
+    private _name:string,
     private _description:string,
     private _variants:ProductVariant[],
     private _assets:Asset[],
-    private _featuredAsset:Asset
+    private _featuredAsset:Asset|null
     ) { }
     
-  get id() { return this._id }
-  get description() {return this._description;}
+  get id() { return this._id; }
+  get name() { return this._name; }
+  get description() {return this._description; }
   /**
    * Gets a cloned version of this product variants.
    * @returns The cloned version of this product variants.
    */
-  get variants() {return [...this._variants];}
+  get variants() { return [...this._variants]; }
   /**
    * Gets a cloned version of this product assets.
    * @returns The cloned version of this product assets.
    */
-  get assets() {return [...this._assets];}
-  get featuredAsset() {return this._featuredAsset;}
+  get assets() { return [...this._assets]; }
+  get featuredAsset() { return this._featuredAsset; }
 }
