@@ -1,5 +1,6 @@
 import { FC } from 'react';
 import styled from 'styled-components';
+import useAddProduct from '../../hooks/useAddProduct';
 import Product from '../../models/Product';
 
 const ProductDetailCard = styled.div`
@@ -44,6 +45,9 @@ const ProductDetailDescription = styled.p`
   }
 `;
 
+const QuantityInput = styled.input``;
+const AddToCartButton = styled.button``;
+
 
 interface ProductDetailProps {
   product: Product
@@ -51,6 +55,8 @@ interface ProductDetailProps {
 
 export const ProductDetail:FC<ProductDetailProps> = (props) => {
   const { featuredAsset, name, description } = props.product;
+  const {addProduct, error, loading} = useAddProduct();
+
   return <ProductDetailCard>
     <ProductDetailCardHeader>
       {
@@ -70,6 +76,10 @@ export const ProductDetail:FC<ProductDetailProps> = (props) => {
       <h3>
         {name}
       </h3>
+      <div>
+        <QuantityInput type='number' min={0} max={99} step={1} />
+        <AddToCartButton onClick={() => addProduct(props.product.variants[0].id, 1)}>Add to cart</AddToCartButton>
+      </div>
     </div>
     {/* <div>id: {props.product.id}</div>
     <div>description: {props.product.description}</div>

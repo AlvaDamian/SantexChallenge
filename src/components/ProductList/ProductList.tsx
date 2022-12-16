@@ -2,6 +2,7 @@ import useGetAllProducts from "../../hooks/useGetAllProducts";
 import { ProductDetail } from "../ProductDetail/ProductDetail";
 import styled from 'styled-components';
 import { Spinner } from "../Spinner";
+import useAddProduct from "../../hooks/useAddProduct";
 
 const Container = styled.div`
   display: flex;
@@ -13,6 +14,8 @@ const Container = styled.div`
 export default function ProductList() {
 
   const {products, loading, error} = useGetAllProducts();
+  
+
   if (error) {
     // TODO return error component
   }
