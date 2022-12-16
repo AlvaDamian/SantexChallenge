@@ -1,9 +1,14 @@
 import { useQuery } from "@apollo/client";
 import { getAllProductsQuery } from "../graphql/queries";
 import Asset, { stringToAssetType } from "../models/Asset";
-import Product, { ProductVariant } from "../models/Product";
+import Product, { ProductVariant, ProductOption, ProductOptionGroup, ProductVariantOption } from "../models/Product";
 
-const createAssetFromResponse = (assetDataFromServer:any) => {
+const createAssetFromResponse = (assetDataFromServer?:any) => {
+
+  if (assetDataFromServer == null) {
+    return null;
+  }
+
   const {
     name,
     type,
@@ -23,15 +28,23 @@ export default function useGetAllProducts() {
   let products:Product[] = [];
 
   if (data) {
-    products = data.products.items.map((p:any) => {
-      const variants = p.variants.map((v:any) => new ProductVariant(v.id, v.price));
-      const assets = p.assets.map(createAssetFromResponse);
+    products = data.products.items.map((item:any) => {
+      const optionGroups = item.optionGroups.map((optionGroup:any) => {
+        const options = optionGroup.options.map((option:any) => new ProductOption(option.id, option.name));
+        return new ProductOptionGroup(optionGroup.id, optionGroup.name, options);
+      });
+      const variants = item.variants.map((variant:any) => {
+
+        const options = variant.options.map((option:any) => new ProductVariantOption(option.id, option.name, ProductOptionGroup.findOneById(option.groupId, optionGroups)));
+        return new ProductVariant(variant.id, variant.name, variant.price, options);
+      });
+      const assets = item.assets.map(createAssetFromResponse);
       let featuredAsset:Asset|null = null;
-      if (p.featuredAsset) {
-        featuredAsset = createAssetFromResponse(p.featuredAsset);
+      if (item.featuredAsset) {
+        featuredAsset = createAssetFromResponse(item.featuredAsset);
       }
       
-      return new Product(p.id, p.name, p.description, variants, assets, featuredAsset);
+      return new Product(item.id, item.name, item.description, variants, optionGroups, assets, featuredAsset);
     });
   }
 

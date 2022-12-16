@@ -1,7 +1,7 @@
-import { FC, useState } from 'react';
+import { FC, useState, useEffect } from 'react';
 import styled from 'styled-components';
 import useAddProduct from '../../hooks/useAddProduct';
-import Product from '../../models/Product';
+import Product, { ProductOption, ProductOptionGroup, ProductVariantOption } from '../../models/Product';
 
 const ProductDetailCard = styled.div`
   background-color: #F9F9F9;
@@ -36,9 +36,18 @@ const ProductDetailDescription = styled.p`
 
 const ProductDetailFooter = styled.div`
   border-top: 1px solid grey;
+  
+`;
+
+const FooterFormContainer = styled.div`
   display: flex;
   justify-content: flex-end;
   align-items: flex-end;
+`;
+
+const Price = styled.span`
+  font-size: 32px;
+  margin: 8px;
 `;
 
 const QuantityInput = styled.input`
@@ -50,6 +59,7 @@ const QuantityInput = styled.input`
   padding: 8px;
   font-size: 1.2rem;
   text-align: end;
+  max-width: 100px
 `;
 
 const AddToCartButton = styled.button`
@@ -63,15 +73,57 @@ const AddToCartButton = styled.button`
   font-size: 1.2rem;
 `;
 
+const OptionGroupsContainer = styled.div``;
+
+const OptionGroup = styled.div`
+  display: inline-block;
+  margin: 8px;
+`;
+const OptionGroupTitle = styled.h4`
+  margin-bottom: 0px;
+`;
+const OptionsList = styled.ul`
+  margin-top: 0px;
+  list-style: none;
+  display: flex;
+  padding: 0px;
+`;
+
+const OptionItem = styled.li`
+  margin: 3px;
+  border: 1px solid #ffa500;
+  cursor: pointer;
+  padding: 3px;
+  border-radius: 3px;
+
+  &:hover {
+    background-color: #ffa500;
+    color: white;
+  }
+`;
+
+const ActiveOptionItem = styled(OptionItem)`
+  background-color: #ffa500;
+  color: white;
+`;
+
 
 interface ProductDetailProps {
   product: Product
 };
 
 export const ProductDetail:FC<ProductDetailProps> = (props) => {
+  const { product } = props;
+  const { id, featuredAsset, name, description, variants, optionGroups } = props.product;
   const [ quantity, setQuantity ] = useState(1);
-  const { featuredAsset, name, description } = props.product;
+  const [ activeVariant, setActiveVariant ] = useState(variants[0]);
+  
+
   const { addProduct, error, loading } = useAddProduct();
+
+  const changeActiveOption = (newActiveOption:ProductOption) => {
+    setActiveVariant(product.getVariantWithNewOption(activeVariant, newActiveOption)!);
+  }
 
   return <ProductDetailCard>
     <ProductDetailCardHeader>
@@ -94,8 +146,28 @@ export const ProductDetail:FC<ProductDetailProps> = (props) => {
       </ProductDetailDescription>
     </ProductDetailBody>
     <ProductDetailFooter>
-      <QuantityInput type='number' min={1} max={99} step={1} value={quantity} onChange={(event) => setQuantity(+event.target.value)} />
-      <AddToCartButton onClick={() => addProduct(props.product.variants[0].id, quantity)} disabled={loading}>Add to cart</AddToCartButton>
+      <OptionGroupsContainer>
+        {optionGroups.map((optionGroup:ProductOptionGroup) => {
+          const optionsItems = optionGroup.options.map((option:ProductOption) => {
+            if (activeVariant?.options.some((variantOption:ProductVariantOption) => variantOption.id === option.id)) {
+              return <ActiveOptionItem key={`option-item-${id}-${option.id}`}>{option.name}</ActiveOptionItem>
+            }
+
+            return <OptionItem key={`option-item-${id}-${option.id}`} onClick= {() => changeActiveOption(option)}>{option.name}</OptionItem>;
+          })
+          return <OptionGroup key={`option-group-${id}-${optionGroup.id}`}>
+            <OptionGroupTitle>{optionGroup.name}</OptionGroupTitle>
+            <OptionsList>
+              {optionsItems}
+            </OptionsList>
+          </OptionGroup>;
+        })}
+      </OptionGroupsContainer>
+      <FooterFormContainer>
+        <Price>$&nbsp;{activeVariant?.price}</Price>
+        <QuantityInput type='number' min={1} max={99} step={1} value={quantity} onChange={(event) => setQuantity(+event.target.value)} />
+        <AddToCartButton onClick={() => addProduct(activeVariant.id, quantity)} disabled={!activeVariant || loading}>{loading ? "Adding..." : "Add to cart"}</AddToCartButton>
+      </FooterFormContainer>
     </ProductDetailFooter>
   </ProductDetailCard>;
 };
