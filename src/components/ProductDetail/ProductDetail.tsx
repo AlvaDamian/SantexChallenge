@@ -1,8 +1,9 @@
-import { FC, useState, useEffect } from 'react';
+import { FC, useState } from 'react';
 import styled from 'styled-components';
 import useAddProduct from '../../hooks/useAddProduct';
 import Product, { ProductOption, ProductOptionGroup, ProductVariantOption } from '../../models/Product';
 
+// #region styles
 const ProductDetailCard = styled.div`
   background-color: #F9F9F9;
   border: 1px solid #D5D5D5;
@@ -106,7 +107,7 @@ const ActiveOptionItem = styled(OptionItem)`
   background-color: #ffa500;
   color: white;
 `;
-
+// #endregion
 
 interface ProductDetailProps {
   product: Product
@@ -118,7 +119,6 @@ export const ProductDetail:FC<ProductDetailProps> = (props) => {
   const [ quantity, setQuantity ] = useState(1);
   const [ activeVariant, setActiveVariant ] = useState(variants[0]);
   
-
   const { addProduct, error, loading } = useAddProduct();
 
   const changeActiveOption = (newActiveOption:ProductOption) => {
