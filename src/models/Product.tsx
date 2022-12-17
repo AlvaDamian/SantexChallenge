@@ -31,18 +31,7 @@ export default class Product {
    */
   get assets() { return [...this._assets]; }
   get featuredAsset() { return this._featuredAsset; }
-  get optionGroups() { return this._optionGroups; }
-
-  public getFirstVariantOptionGroups():ProductOptionGroup[] {
-    if (this.variants.length === 0) {
-      return [];
-    }
-
-    const firstVariant = this.variants[0];
-    return firstVariant.options.map((option:ProductOption) => {
-      return this.optionGroups.find((optionGroup:ProductOptionGroup) => optionGroup.options.some((opt:ProductOption) => opt.id === option.id))!;
-    });
-  }
+  get optionGroups() { return [...this._optionGroups]; }
 
   public getVariantWithNewOption(referenceVariant:ProductVariant, newOption:ProductOption):ProductVariant | undefined {
     const optionGroup = this.getOptionGroupFromOption(newOption);

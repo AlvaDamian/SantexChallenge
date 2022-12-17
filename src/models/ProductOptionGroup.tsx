@@ -7,9 +7,13 @@ export class ProductOptionGroup {
 
   get id() { return this._id; }
   get name() { return this._name; }
-  get options() { return this._options; }
+  get options() { return [...this._options]; }
 
   public static findOneById(id: string, optionGroupsList: ProductOptionGroup[]): ProductOptionGroup {
     return optionGroupsList.find(optionGroup => optionGroup.id === id)!;
+  }
+
+  public clone():ProductOptionGroup {
+    return new ProductOptionGroup(this.id, this.name, this.options);
   }
 }

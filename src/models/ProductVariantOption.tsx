@@ -9,5 +9,5 @@ export class ProductVariantOption extends ProductOption {
     super(id, name);
   }
 
-  get optionGroup() { return this._optionGroup; }
+  get optionGroup() { return this._optionGroup?.clone(); }
 }

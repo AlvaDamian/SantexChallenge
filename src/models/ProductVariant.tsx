@@ -10,7 +10,7 @@ export class ProductVariant {
   get id() { return this._id; }
   get name() { return this._name; }
   get price() { return this._price; }
-  get options() { return this._options; }
+  get options() { return [...this._options]; }
 
   public belongsToAllOptions(allOptions: ProductOption[]): boolean {
     const thisOptionsIds = this.options.map((opt: ProductOption) => opt.id);
