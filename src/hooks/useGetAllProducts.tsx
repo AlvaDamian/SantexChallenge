@@ -7,6 +7,11 @@ import { ProductVariantOption } from "../models/ProductVariantOption";
 import { ProductOption } from "../models/ProductOption";
 import { ProductOptionGroup } from "../models/ProductOptionGroup";
 
+/**
+ * @description Creates an asset from the server response.
+ * @param assetDataFromServer Server response for an asset.
+ * @returns The Asset object.
+ */
 const createAssetFromResponse = (assetDataFromServer?:any) => {
 
   if (assetDataFromServer == null) {
@@ -24,6 +29,11 @@ const createAssetFromResponse = (assetDataFromServer?:any) => {
   return new Asset(name, stringToAssetType(type), source, width, height);
 }
 
+/**
+ * @description Hook that will fetch immediately all products.
+ * @returns An object with products fetched, a loading state and
+ * an error message if exists.
+ */
 export default function useGetAllProducts() {
   const {data, loading, error} = useQuery(getAllProductsQuery);
 
@@ -34,11 +44,12 @@ export default function useGetAllProducts() {
         const options = optionGroup.options.map((option:any) => new ProductOption(option.id, option.name));
         return new ProductOptionGroup(optionGroup.id, optionGroup.name, options);
       });
-      const variants = item.variants.map((variant:any) => {
 
+      const variants = item.variants.map((variant:any) => {
         const options = variant.options.map((option:any) => new ProductVariantOption(option.id, option.name, ProductOptionGroup.findOneById(option.groupId, optionGroups)));
         return new ProductVariant(variant.id, variant.name, variant.price, options);
       });
+
       const assets = item.assets.map(createAssetFromResponse);
       let featuredAsset:Asset|null = null;
       if (item.featuredAsset) {
