@@ -1,7 +1,11 @@
 import { useQuery } from "@apollo/client";
 import { getAllProductsQuery } from "../graphql/queries";
 import Asset, { stringToAssetType } from "../models/Asset";
-import Product, { ProductVariant, ProductOption, ProductOptionGroup, ProductVariantOption } from "../models/Product";
+import Product from "../models/Product";
+import { ProductVariant } from "../models/ProductVariant";
+import { ProductVariantOption } from "../models/ProductVariantOption";
+import { ProductOption } from "../models/ProductOption";
+import { ProductOptionGroup } from "../models/ProductOptionGroup";
 
 const createAssetFromResponse = (assetDataFromServer?:any) => {
 

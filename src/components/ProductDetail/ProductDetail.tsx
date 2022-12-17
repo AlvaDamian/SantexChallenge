@@ -1,7 +1,10 @@
 import { FC, useState } from 'react';
 import styled from 'styled-components';
 import useAddProduct from '../../hooks/useAddProduct';
-import Product, { ProductOption, ProductOptionGroup, ProductVariantOption } from '../../models/Product';
+import Product from '../../models/Product';
+import { ProductVariantOption } from "../../models/ProductVariantOption";
+import { ProductOption } from "../../models/ProductOption";
+import { ProductOptionGroup } from "../../models/ProductOptionGroup";
 
 // #region styles
 const ProductDetailCard = styled.div`
