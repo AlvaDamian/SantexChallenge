@@ -16,14 +16,12 @@ const createAssetFromResponse = (assetDataFromServer?:any) => {
   const {
     name,
     type,
-    mimeType,
     source,
-    preview,
     width,
     height
   } = assetDataFromServer;
 
-  return new Asset(name, stringToAssetType(type), mimeType, source, preview, width, height);
+  return new Asset(name, stringToAssetType(type), source, width, height);
 }
 
 export default function useGetAllProducts() {

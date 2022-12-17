@@ -11,14 +11,12 @@ export const getAllProductsQuery = gql`
         assets {
           name
           source
-          preview
           width
           height
         }
         featuredAsset {
           name
           source
-          preview
           width
           height
         }
