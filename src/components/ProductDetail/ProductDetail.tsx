@@ -139,7 +139,6 @@ export const ProductDetail:FC<ProductDetailProps> = (props) => {
   return <ProductDetailCard>
     <ProductDetailCardHeader>
       {
-        // TODO show a placeholder image if it doesn't exist.
         featuredAsset &&
         <ProductDetailImage
           src={featuredAsset.source}

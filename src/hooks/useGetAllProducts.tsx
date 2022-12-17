@@ -28,7 +28,6 @@ export default function useGetAllProducts() {
   const {data, loading, error} = useQuery(getAllProductsQuery);
 
   let products:Product[] = [];
-
   if (data) {
     products = data.products.items.map((item:any) => {
       const optionGroups = item.optionGroups.map((optionGroup:any) => {

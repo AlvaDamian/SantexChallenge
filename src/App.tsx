@@ -9,7 +9,6 @@ function App() {
   const [ subtotalWithTaxes, setSubtotalWithTaxes ] = useStateWithStorage("subtotalWithTaxes", 0);
 
   const addSale = (saleSubtotal:number, saleSubtotalWithTaxes:number) => {
-    console.log('called add sale', saleSubtotal, saleSubtotalWithTaxes);
     setSubtotal((prev:string | null) => (prev ? +prev : 0) + saleSubtotal);
     setSubtotalWithTaxes((prev:string | null) => "" + ((prev ? +prev : 0) + saleSubtotalWithTaxes));
   }

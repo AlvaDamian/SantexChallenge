@@ -110,5 +110,5 @@ export const Spinner:FC<SpinnerProps> = (props) => {
   hourglassProps.marginLeftInRem = props.marginLeftInRem;
   hourglassProps.marginRightInRem = props.marginRightInRem;
   hourglassProps.marginTopInRem = props.marginTopInRem;
-  return <Hourglass {...hourglassProps} />;
+  return <Hourglass {...hourglassProps} title="Loading..." />;
 }

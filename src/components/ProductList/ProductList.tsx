@@ -18,6 +18,7 @@ export default function ProductList() {
 
   if (error) {
     // TODO return error component
+    return <div>errrrooooor {error}</div>
   }
 
   if (loading) {
